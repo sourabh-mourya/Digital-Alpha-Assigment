@@ -1,0 +1,71 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--neutral-0);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--neutral-400);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.kpiCard {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--neutral-900);
+  border: 1px solid var(--neutral-800);
+}
+
+.kpiLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--neutral-400);
+}
+
+.kpiValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--neutral-0);
+  letter-spacing: -0.02em;
+}
+
+.kpiSub {
+  font-size: 12px;
+  color: var(--neutral-500);
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+}

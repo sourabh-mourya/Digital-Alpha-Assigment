@@ -52,6 +52,8 @@ export interface RewardItem {
   coin_cost: number;
 }
 
+export type Reward = RewardItem;
+
 export interface RewardsListResponse {
   data: RewardItem[];
 }

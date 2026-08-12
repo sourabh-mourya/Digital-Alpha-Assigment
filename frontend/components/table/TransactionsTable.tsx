@@ -10,6 +10,7 @@ import { TablePagination } from './TablePagination';
 import { TableFilters, type FilterValues } from './TableFilters';
 import { Badge } from '../ui/Badge';
 import { Card } from '../ui/Card';
+import { Modal } from '../ui/Modal';
 
 const formatCurrency = (amount: number, currency: string) => {
   return new Intl.NumberFormat('en-US', {
@@ -101,6 +102,8 @@ export function TransactionsTable() {
     setPage(1);
   };
 
+  const [selectedTxn, setSelectedTxn] = useState<Transaction | null>(null);
+
   const columns = [
     { key: 'merchant_name', label: 'Merchant', sortable: true },
     { key: 'category', label: 'Category', sortable: true },
@@ -132,7 +135,7 @@ export function TransactionsTable() {
         />
         <tbody>
           {!isLoading && data.map(txn => (
-            <TableRow key={txn.id} interactive>
+            <TableRow key={txn.id} interactive onClick={() => setSelectedTxn(txn)}>
               <TableCell>
                 <div style={{ fontWeight: 500, color: 'var(--neutral-0)' }}>
                   {txn.merchant_name}
@@ -164,6 +167,51 @@ export function TransactionsTable() {
           meta={meta}
           onPageChange={setPage}
         />
+      )}
+
+      {selectedTxn && (
+        <Modal 
+          isOpen={!!selectedTxn} 
+          onClose={() => setSelectedTxn(null)} 
+          title="Transaction Details"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--neutral-0)' }}>{selectedTxn.merchant_name}</h3>
+                <span style={{ fontSize: '13px', color: 'var(--neutral-400)' }}>{selectedTxn.category}</span>
+              </div>
+              <Badge variant={selectedTxn.status as any}>{selectedTxn.status}</Badge>
+            </div>
+
+            <div style={{ 
+              backgroundColor: 'var(--neutral-900)', 
+              padding: '16px', 
+              borderRadius: 'var(--radius-md)', 
+              border: '1px solid var(--neutral-800)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: 'var(--neutral-400)', fontSize: '13px' }}>Transaction ID</span>
+                <span style={{ color: 'var(--neutral-200)', fontSize: '13px', fontFamily: 'monospace' }}>{selectedTxn.id}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: 'var(--neutral-400)', fontSize: '13px' }}>Amount</span>
+                <span style={{ color: 'var(--neutral-0)', fontSize: '15px', fontWeight: 600 }}>{formatCurrency(selectedTxn.amount, selectedTxn.currency)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: 'var(--neutral-400)', fontSize: '13px' }}>Payment Method</span>
+                <span style={{ color: 'var(--neutral-200)', fontSize: '13px' }}>{selectedTxn.payment_method}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: 'var(--neutral-400)', fontSize: '13px' }}>Date & Time</span>
+                <span style={{ color: 'var(--neutral-200)', fontSize: '13px' }}>{formatDate(selectedTxn.txn_date)}</span>
+              </div>
+            </div>
+          </div>
+        </Modal>
       )}
     </Card>
   );

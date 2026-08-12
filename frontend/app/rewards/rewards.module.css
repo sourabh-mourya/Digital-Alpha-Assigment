@@ -1,0 +1,221 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--neutral-0);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--neutral-400);
+}
+
+.walletCard {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--neutral-900) 0%, var(--neutral-850) 100%);
+  border: 1px solid var(--primary-700);
+  box-shadow: var(--shadow-glow);
+}
+
+.walletInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.walletLabel {
+  font-size: 13px;
+  color: var(--neutral-400);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.balanceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.coinIcon {
+  font-size: 32px;
+}
+
+.balanceValue {
+  font-size: 36px;
+  font-weight: 800;
+  color: #fbbf24;
+  letter-spacing: -0.03em;
+}
+
+.coinUnit {
+  font-size: 16px;
+  color: var(--neutral-300);
+  font-weight: 500;
+}
+
+.walletStats {
+  display: flex;
+  gap: 24px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--neutral-400);
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--neutral-200);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.rewardCard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--neutral-900);
+  border: 1px solid var(--neutral-800);
+  transition: all 0.2s ease;
+}
+
+.rewardCard:hover {
+  border-color: var(--primary-600);
+  transform: translateY(-2px);
+}
+
+.rewardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.rewardName {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--neutral-0);
+}
+
+.costBadge {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.rewardDescription {
+  font-size: 13px;
+  color: var(--neutral-400);
+  line-height: 1.5;
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalMeta {
+  background-color: var(--neutral-900);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--neutral-800);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--neutral-300);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1000;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-elevated);
+  animation: slideIn 0.3s ease;
+}
+
+.toast.success {
+  background-color: var(--success-dark);
+  color: var(--neutral-0);
+}
+
+.toast.error {
+  background-color: var(--error-dark);
+  color: var(--neutral-0);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .walletCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .walletStats {
+    align-self: flex-start;
+  }
+}
