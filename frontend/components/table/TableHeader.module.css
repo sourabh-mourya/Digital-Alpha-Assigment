@@ -1,0 +1,66 @@
+.thead {
+  background-color: var(--neutral-850);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.th {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-sm, 13px);
+  font-weight: 600;
+  color: var(--neutral-400);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--neutral-800);
+  white-space: nowrap;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition-fast);
+}
+
+.sortable:hover {
+  color: var(--neutral-100);
+}
+
+.sortable:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: -2px;
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.left .content {
+  justify-content: flex-start;
+}
+
+.center .content {
+  justify-content: center;
+}
+
+.right .content {
+  justify-content: flex-end;
+  /* Push to right but keep the gap with icon */
+  flex-direction: row-reverse;
+}
+
+.sortIcon {
+  font-size: 14px;
+  color: var(--neutral-500);
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+  display: inline-block;
+  width: 14px;
+  text-align: center;
+}
+
+.sortable:hover .sortIcon {
+  opacity: 1;
+}

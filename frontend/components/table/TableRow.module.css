@@ -1,0 +1,40 @@
+.tr {
+  transition: background-color var(--transition-fast);
+  border-bottom: 1px solid var(--neutral-800);
+}
+
+.tr:last-child {
+  border-bottom: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background-color: var(--neutral-850);
+}
+
+.clickable:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: -2px;
+}
+
+.td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-base, 14px);
+  color: var(--neutral-100);
+  vertical-align: middle;
+}
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}

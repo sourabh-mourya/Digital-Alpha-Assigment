@@ -1,0 +1,101 @@
+.filtersContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: var(--neutral-900);
+  border-bottom: 1px solid var(--neutral-800);
+}
+
+.searchBox {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.clearSearch {
+  position: absolute;
+  right: var(--spacing-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neutral-500);
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.clearSearch:hover {
+  background-color: var(--neutral-800);
+  color: var(--neutral-100);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.selectWrapper {
+  position: relative;
+  width: 160px;
+}
+
+.select {
+  width: 100%;
+  appearance: none;
+  background-color: var(--neutral-900);
+  border: 1px solid var(--neutral-700);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--spacing-xl) 0 var(--spacing-md);
+  height: 40px;
+  color: var(--neutral-100);
+  font-family: inherit;
+  font-size: var(--font-size-sm, 13px);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.select:focus-visible {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 1px var(--primary-500);
+}
+
+.selectArrow {
+  position: absolute;
+  right: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neutral-500);
+  pointer-events: none;
+  font-size: 10px;
+}
+
+@media (max-width: 768px) {
+  .filtersContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .searchBox {
+    max-width: 100%;
+  }
+  
+  .controls {
+    flex-wrap: wrap;
+  }
+  
+  .selectWrapper {
+    flex: 1;
+    min-width: 120px;
+  }
+}
