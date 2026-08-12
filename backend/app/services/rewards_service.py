@@ -52,7 +52,7 @@ async def redeem_reward(reward_id: int) -> RedemptionResponse:
         async with conn.transaction():
             # 1. Check reward exists
             reward_result = await conn.execute(
-                "SELECT id, name, description, coin_cost FROM rewards_catalogue WHERE id = $1",
+                "SELECT id, name, description, coin_cost FROM rewards_catalogue WHERE id = %s",
                 [reward_id],
             )
             reward_row = await reward_result.fetchone()
@@ -80,7 +80,7 @@ async def redeem_reward(reward_id: int) -> RedemptionResponse:
                 # Log the failed attempt
                 failed_result = await conn.execute(
                     """INSERT INTO redemptions (reward_id, coins_spent, status)
-                       VALUES ($1, $2, 'failed')
+                       VALUES (%s, %s, 'failed')
                        RETURNING id, created_at""",
                     [reward_id, coin_cost],
                 )
@@ -91,14 +91,14 @@ async def redeem_reward(reward_id: int) -> RedemptionResponse:
             # 4. Debit balance
             new_balance = current_balance - coin_cost
             await conn.execute(
-                "UPDATE user_wallet SET coin_balance = $1 WHERE id = $2",
+                "UPDATE user_wallet SET coin_balance = %s WHERE id = %s",
                 [new_balance, wallet_id],
             )
 
             # 5. Log confirmed redemption
             redeem_result = await conn.execute(
                 """INSERT INTO redemptions (reward_id, coins_spent, status)
-                   VALUES ($1, $2, 'confirmed')
+                   VALUES (%s, %s, 'confirmed')
                    RETURNING id, created_at""",
                 [reward_id, coin_cost],
             )
