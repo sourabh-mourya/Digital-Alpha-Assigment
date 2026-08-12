@@ -14,7 +14,7 @@ import type {
   SummaryStats,
 } from '@/types/transaction';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
 
 class ApiError extends Error {
   status: number;
@@ -62,22 +62,34 @@ export async function fetchTransaction(id: string): Promise<Transaction> {
 // ── Analytics ────────────────────────────────────────────
 
 export async function fetchCategoryBreakdown(): Promise<CategoryBreakdown[]> {
-  const res = await request<{ data: CategoryBreakdown[] }>(
+  const res = await request<{ data: CategoryBreakdown[]; cached?: boolean }>(
     '/transactions/analytics/categories'
+  );
+  console.log(
+    `[Category Breakdown] Data Source: ${res.cached ? '⚡ REDIS CACHE (HIT)' : '🗄️ DATABASE (MISS)'}`,
+    res.data
   );
   return res.data;
 }
 
 export async function fetchMonthlyTrend(): Promise<MonthlyTrend[]> {
-  const res = await request<{ data: MonthlyTrend[] }>(
+  const res = await request<{ data: MonthlyTrend[]; cached?: boolean }>(
     '/transactions/analytics/trend'
+  );
+  console.log(
+    `[Monthly Trend] Data Source: ${res.cached ? '⚡ REDIS CACHE (HIT)' : '🗄️ DATABASE (MISS)'}`,
+    res.data
   );
   return res.data;
 }
 
 export async function fetchSummaryStats(): Promise<SummaryStats> {
-  const res = await request<{ data: SummaryStats }>(
+  const res = await request<{ data: SummaryStats; cached?: boolean }>(
     '/transactions/analytics/summary'
+  );
+  console.log(
+    `[Summary Stats] Data Source: ${res.cached ? '⚡ REDIS CACHE (HIT)' : '🗄️ DATABASE (MISS)'}`,
+    res.data
   );
   return res.data;
 }

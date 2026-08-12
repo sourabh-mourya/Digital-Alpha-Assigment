@@ -14,12 +14,14 @@ NOT cached:
 
 import json
 import os
+from pathlib import Path
 from typing import Any
 
 import redis.asyncio as redis
 from dotenv import load_dotenv
 
-load_dotenv()
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
+load_dotenv(BACKEND_DIR / ".env")
 
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
@@ -32,9 +34,10 @@ async def init_redis() -> None:
     try:
         _client = redis.from_url(REDIS_URL, decode_responses=True)
         await _client.ping()
-        print("✓ Redis connected")
+        print("-> Redis connected")
     except Exception as e:
-        print(f"⚠ Redis connection failed: {e}")
+        redis_client = None
+        print(f"[!] Redis connection failed: {e}")
         print("  Continuing without cache (all queries hit DB directly)")
         _client = None
 
@@ -50,13 +53,17 @@ async def close_redis() -> None:
 async def get_cached(key: str) -> Any | None:
     """Get a cached value by key. Returns None on miss or if Redis unavailable."""
     if not _client:
+        print(f"[REDIS CACHE DISABLED] Client not initialized. Fetching from DB for key: '{key}'")
         return None
     try:
         raw = await _client.get(key)
         if raw is None:
+            print(f"❌ [REDIS CACHE MISS] Key: '{key}' not in cache -> Fetching from Database")
             return None
+        print(f"✅ [REDIS CACHE HIT] Key: '{key}' found in Redis cache! Returning cached data.")
         return json.loads(raw)
-    except Exception:
+    except Exception as e:
+        print(f"⚠️ [REDIS CACHE ERROR] Failed reading key '{key}': {e}")
         return None
 
 
@@ -66,8 +73,9 @@ async def set_cached(key: str, value: Any, ttl_seconds: int = 300) -> None:
         return
     try:
         await _client.setex(key, ttl_seconds, json.dumps(value, default=str))
-    except Exception:
-        pass  # Cache write failure shouldn't break the app
+        print(f"💾 [REDIS CACHE SET] Key: '{key}' saved to Redis (TTL={ttl_seconds}s)")
+    except Exception as e:
+        print(f"⚠️ [REDIS CACHE SET ERROR] Key '{key}': {e}")
 
 
 async def invalidate(key: str) -> None:
@@ -76,8 +84,9 @@ async def invalidate(key: str) -> None:
         return
     try:
         await _client.delete(key)
-    except Exception:
-        pass
+        print(f"🗑️ [REDIS CACHE INVALIDATED] Key: '{key}' removed from Redis")
+    except Exception as e:
+        print(f"⚠️ [REDIS CACHE INVALIDATE ERROR] Key '{key}': {e}")
 
 
 # ── Cache key constants ──────────────────────────────────────

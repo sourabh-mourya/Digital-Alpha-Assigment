@@ -2,14 +2,21 @@
 Database connection pool using psycopg (v3, async).
 """
 
+import sys
+import asyncio
 import os
+from pathlib import Path
 from contextlib import asynccontextmanager
 
 import psycopg
 from psycopg_pool import AsyncConnectionPool
 from dotenv import load_dotenv
 
-load_dotenv()
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
+load_dotenv(BACKEND_DIR / ".env")
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://da_user:da_pass_local@localhost:5432/digital_alpha")
 

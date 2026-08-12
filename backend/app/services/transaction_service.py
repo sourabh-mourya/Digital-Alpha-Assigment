@@ -41,42 +41,34 @@ async def list_transactions(
     # Build WHERE clauses
     conditions: list[str] = []
     params: list = []
-    param_idx = 1
 
     if category:
-        conditions.append(f"category = ${param_idx}")
+        conditions.append("category = %s")
         params.append(category)
-        param_idx += 1
 
     if status:
-        conditions.append(f"status = ${param_idx}")
+        conditions.append("status = %s")
         params.append(status.lower())
-        param_idx += 1
 
     if date_from:
-        conditions.append(f"txn_date >= ${param_idx}::timestamptz")
+        conditions.append("txn_date >= %s::timestamptz")
         params.append(date_from)
-        param_idx += 1
 
     if date_to:
-        conditions.append(f"txn_date <= ${param_idx}::timestamptz")
+        conditions.append("txn_date <= %s::timestamptz")
         params.append(date_to)
-        param_idx += 1
 
     if amount_min is not None:
-        conditions.append(f"amount >= ${param_idx}")
+        conditions.append("amount >= %s")
         params.append(amount_min)
-        param_idx += 1
 
     if amount_max is not None:
-        conditions.append(f"amount <= ${param_idx}")
+        conditions.append("amount <= %s")
         params.append(amount_max)
-        param_idx += 1
 
     if search:
-        conditions.append(f"merchant_name ILIKE ${param_idx}")
+        conditions.append("merchant_name ILIKE %s")
         params.append(f"%{search}%")
-        param_idx += 1
 
     where_clause = ""
     if conditions:
@@ -97,7 +89,7 @@ async def list_transactions(
         FROM transactions
         {where_clause}
         ORDER BY {sort_col} {sort_direction}
-        LIMIT ${param_idx} OFFSET ${param_idx + 1}
+        LIMIT %s OFFSET %s
     """
     params.extend([limit, offset])
 
@@ -144,7 +136,7 @@ async def get_transaction_by_id(txn_id: str) -> TransactionResponse | None:
         SELECT id, merchant_name, category, amount, currency,
                payment_method, status, txn_date, created_at
         FROM transactions
-        WHERE id = $1
+        WHERE id = %s
     """
     async with get_connection() as conn:
         result = await conn.execute(sql, [txn_id])
