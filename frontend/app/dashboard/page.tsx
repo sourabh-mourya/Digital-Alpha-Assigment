@@ -26,7 +26,7 @@ export default function DashboardPage() {
   }, []);
 
   const handleCategorySelect = (category: string) => {
-    router.push(`/?category=${encodeURIComponent(category)}`);
+    router.push(`/transactions?category=${encodeURIComponent(category)}`);
   };
 
   const successRate = stats

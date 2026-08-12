@@ -17,7 +17,7 @@ export function Navbar() {
   }, []);
 
   const navItems = [
-    { label: 'Transactions', href: '/' },
+    { label: 'Transactions', href: '/transactions' },
     { label: 'Analytics', href: '/dashboard' },
     { label: 'Rewards Store', href: '/rewards' },
   ];
@@ -25,7 +25,7 @@ export function Navbar() {
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
-        <Link href="/" className={styles.logo}>
+        <Link href="/transactions" className={styles.logo}>
           <span className={styles.logoIcon}>⬡</span>
           <h1>Digital Alpha Rewards</h1>
         </Link>

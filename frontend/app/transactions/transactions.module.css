@@ -1,0 +1,26 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--neutral-0);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--neutral-400);
+}
