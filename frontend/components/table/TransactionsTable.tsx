@@ -30,18 +30,21 @@ const formatDate = (dateString: string) => {
   }).format(d);
 };
 
-export function TransactionsTable() {
+interface TransactionsTableProps {
+  initialCategory?: string;
+}
+
+export function TransactionsTable({ initialCategory }: TransactionsTableProps = {}) {
   const [data, setData] = useState<Transaction[]>([]);
   const [meta, setMeta] = useState<PaginationMeta | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
   
-  // URL state could be synced here, but keeping it local for simplicity in this component
   const [filters, setFilters] = useState<FilterValues>({
     search: '',
     status: '',
-    category: '',
+    category: initialCategory || '',
   });
   
   const [page, setPage] = useState(1);
