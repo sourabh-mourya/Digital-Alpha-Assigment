@@ -70,6 +70,10 @@ export function TransactionsTable() {
       if (filters.search) params.search = filters.search;
       if (filters.status) params.status = filters.status;
       if (filters.category) params.category = filters.category;
+      if (filters.date_from) params.date_from = filters.date_from;
+      if (filters.date_to) params.date_to = filters.date_to;
+      if (filters.amount_min) params.amount_min = parseFloat(filters.amount_min);
+      if (filters.amount_max) params.amount_max = parseFloat(filters.amount_max);
 
       const res = await fetchTransactions(params);
       setData(res.data);

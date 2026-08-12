@@ -7,6 +7,10 @@ export interface FilterValues {
   search: string;
   status: string;
   category: string;
+  date_from?: string;
+  date_to?: string;
+  amount_min?: string;
+  amount_max?: string;
 }
 
 interface TableFiltersProps {
@@ -40,10 +44,10 @@ export function TableFilters({ filters, onChange, categories }: TableFiltersProp
 
   const clearFilters = () => {
     setSearchValue('');
-    onChange({ search: '', status: '', category: '' });
+    onChange({ search: '', status: '', category: '', date_from: '', date_to: '', amount_min: '', amount_max: '' });
   };
 
-  const hasActiveFilters = filters.search || filters.status || filters.category;
+  const hasActiveFilters = filters.search || filters.status || filters.category || filters.date_from || filters.date_to || filters.amount_min || filters.amount_max;
 
   return (
     <div className={styles.filtersContainer}>
@@ -96,9 +100,45 @@ export function TableFilters({ filters, onChange, categories }: TableFiltersProp
           <div className={styles.selectArrow}>▼</div>
         </div>
 
+        {/* Date From & Date To */}
+        <input 
+          type="date" 
+          className={styles.dateInput}
+          value={filters.date_from || ''}
+          onChange={(e) => onChange({ ...filters, date_from: e.target.value })}
+          aria-label="Date from"
+          title="From Date"
+        />
+        <input 
+          type="date" 
+          className={styles.dateInput}
+          value={filters.date_to || ''}
+          onChange={(e) => onChange({ ...filters, date_to: e.target.value })}
+          aria-label="Date to"
+          title="To Date"
+        />
+
+        {/* Amount Min & Max */}
+        <input 
+          type="number"
+          placeholder="Min $" 
+          className={styles.numInput}
+          value={filters.amount_min || ''}
+          onChange={(e) => onChange({ ...filters, amount_min: e.target.value })}
+          aria-label="Min amount"
+        />
+        <input 
+          type="number"
+          placeholder="Max $" 
+          className={styles.numInput}
+          value={filters.amount_max || ''}
+          onChange={(e) => onChange({ ...filters, amount_max: e.target.value })}
+          aria-label="Max amount"
+        />
+
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" onClick={clearFilters}>
-            Clear Filters
+            Clear
           </Button>
         )}
       </div>

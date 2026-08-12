@@ -80,6 +80,34 @@
   font-size: 10px;
 }
 
+.dateInput,
+.numInput {
+  background-color: var(--neutral-900);
+  border: 1px solid var(--neutral-700);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--spacing-sm);
+  height: 40px;
+  color: var(--neutral-100);
+  font-family: inherit;
+  font-size: var(--font-size-sm, 13px);
+  transition: all var(--transition-fast);
+}
+
+.dateInput {
+  width: 135px;
+}
+
+.numInput {
+  width: 90px;
+}
+
+.dateInput:focus-visible,
+.numInput:focus-visible {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 1px var(--primary-500);
+}
+
 @media (max-width: 768px) {
   .filtersContainer {
     flex-direction: column;
