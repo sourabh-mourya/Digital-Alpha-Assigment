@@ -28,8 +28,11 @@ async def init_pool() -> None:
     global _pool
     _pool = AsyncConnectionPool(
         conninfo=DATABASE_URL,
-        min_size=2,
+        min_size=1,
         max_size=10,
+        max_idle=180,  # Recycle connections idle > 3 mins
+        max_lifetime=300,  # Max lifetime 5 mins to stay fresh with cloud DB (Neon)
+        check=AsyncConnectionPool.check_connection,  # Verify health before acquiring
         open=False,
     )
     await _pool.open()
